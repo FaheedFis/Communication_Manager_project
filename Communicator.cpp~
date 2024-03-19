@@ -1,0 +1,74 @@
+/*****************************************************************************
+ ** File: Communicator.h
+ ** Project: CMSC 202 Project 5, Fall 2023
+ ** Author:  Faheed Sadique
+ ** Date:    11/11/2023
+ **
+ Description: Header file for Communicator class.
+*****************************************************************************/
+#include "Message.h"
+#include "Lqueue.cpp"
+#include "Communicator.h"
+#include <iostream>
+using namespace std;
+
+// Overloaded Constructor
+Communicator::Communicator(long int number) : m_number(number) {
+}
+
+//Destructor
+Communicator::~Communicator(){
+  while (!m_messages->IsEmpty()){
+    delete m_messages->Front();
+    m_messages->Pop();
+    }
+  delete m_messages;
+}
+Lqueue<Message*>* m_messages; //Holds messages sent to m_number or from m_number
+long int m_number; //phone number of this specific communicator
+
+// Inserts a message to m_messages
+void Communicator::InsertMessage(Message* newMessage){
+  m_messages->Push(newMessage);
+}
+//Displays all messages sent "to" this communicator
+void Communicator::DisplayTo(){
+  cout << "Messages to Communicator " << m_number << endl;
+
+  if (!m_messages->IsEmpty()){
+    Lqueue<Message*> tempQueue = Lqueue<Message*>* m_messages;
+
+    while (!tempQueue.IsEmpty()){
+      cout << *(tempQueue.Front()) <<endl;
+      tempQueue.Pop();
+    }
+  } else {
+    cout << "No messages to display." << endl;
+  }
+}
+
+//Displays all messages sent "from" this communicator
+void Communicator::DisplayFrom(){
+  cout << "Messages to Communicator " << m_number << endl;
+
+  if (!m_messages->IsEmpty()){
+    Lqueue<Message*> tempQueue = m_messages;
+
+    while (!tempQueue.IsEmpty()){
+      cout << *(tempQueue.Front()) << endl;
+      tempQueue.Pop();
+    }
+  } else {
+    cout << "No messages to display." << endl;
+  }
+}
+
+//Returns phone number of this communicator
+long int GetNumber(){
+  return m_number;
+}
+
+// Returns total number of messages in this communicator
+int Communicator::GetNumMessages(){
+  return static_cast<int>(m_messages->m_size());
+}

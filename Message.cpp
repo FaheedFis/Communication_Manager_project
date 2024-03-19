@@ -1,0 +1,42 @@
+/*****************************************************************************
+ ** File: Message.cpp
+ ** Project: CMSC 202 Project 5, Fall 2023
+ ** Author:  Faheed Sadique
+ ** Date:    11/14/2023
+ **
+ Description: CPP file for Message class. Includes both class definition and
+ class function definitions.
+*****************************************************************************/
+#include "Message.h"
+#include <iostream>
+#include <string>
+#include <ctime>
+using namespace std;
+
+//Overloaded Constructor
+Message::Message(long int time, long int mTo, long int mFrom, string message) : m_time(time),m_from(mFrom), m_to(mTo), m_message(message) {}
+
+// Destructor
+Message::~Message() {
+}
+
+ostream& operator<<(ostream& output, Message& msg) {
+  output << "Time: " << std::ctime(&msg.m_time)
+         << "From: " << msg.m_from << "To: " << msg.m_to
+         << "Message: " << msg.m_message;
+return output;
+}
+
+long int m_time;    // Time message sent
+long int m_from;    // Phone number of source of message
+long int m_to;      // Phone number of destination of message
+string m_message;   // Answer to message
+
+
+int main() {
+  
+  Message myMessage(1638300000, 123456789, 987654321, "Hey, how was work today?");
+  cout << myMessage << endl;
+
+  return 0;
+}
